@@ -5,7 +5,6 @@
     import Header from "./components/Header.svelte";
     import Dashboard from "./components/Dashboard.svelte";
     import Todolist from "./components/Todolist.svelte";
-    import Second from "./components/Todolistnode.svelte";
     import Todolistnode from "./components/Todolistnode.svelte";
 
 </script>

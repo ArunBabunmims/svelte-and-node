@@ -25,7 +25,7 @@ import Sidebar from "./Sidebar.svelte";
           <div class="card-body text-center">
             <h5 class="card-title text-center">Card 2</h5>
             <p class="card-text">This is some sample text for Card 2.</p>
-            <Link to="/newOne" class="btn btn-primary">Go somewhere</Link>
+            <Link to="/todonode" class="btn btn-primary">Go somewhere</Link>
           </div>
         </div>
       </div>

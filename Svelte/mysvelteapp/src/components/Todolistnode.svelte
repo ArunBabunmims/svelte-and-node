@@ -5,6 +5,7 @@
 
 
     let text = "";
+    let is_completed = "okk";
 
 
     async function handleClick() {
@@ -16,7 +17,7 @@
             try {
                 const response = await fetch('http://localhost:4000/addTodolist', {
                     method: 'post',
-                    body: text
+                    body: JSON.stringify({ text, is_completed })
                 })
 
                 console.log(response);

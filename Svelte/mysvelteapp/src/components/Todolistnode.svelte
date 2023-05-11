@@ -5,28 +5,29 @@
 
 
     let text = "";
-    let is_completed = "okk";
+ 
 
 
     async function handleClick() {
-    console.log("text::::",text);
-        if(text.length == 0){
-            alert("Please Enter a Task ")
-        }
-        else{
-            try {
-                const response = await fetch('http://localhost:4000/addTodolist', {
-                    method: 'post',
-                    body: JSON.stringify({ text, is_completed })
-                })
+  console.log("text::::", text);
+  if (text.length == 0) {
+    alert("Please Enter a Task ");
+  } else {
+    try {
+      const response = await fetch("http://localhost:4000/addTodolist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
 
-                console.log(response);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
+  }
+}
 
 </script>
 <Sidebar/>

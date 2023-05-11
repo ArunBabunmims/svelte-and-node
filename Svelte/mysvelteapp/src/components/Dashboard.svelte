@@ -16,7 +16,7 @@ import Sidebar from "./Sidebar.svelte";
             <h5 class="card-title text-center">Card 1</h5>
             <p class="card-text">This is some sample text for Card 1.</p>
             <!-- <a href="#" on:click={() => navigate('/todolist')} class="btn btn-primary">Go somewhere</a> -->
-            <Link to="/todolist" class="btn btn-primary">Go somewhere</Link>
+            <Link to="/todolist" class="btn btn-primary">To Do list</Link>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@ import Sidebar from "./Sidebar.svelte";
           <div class="card-body text-center">
             <h5 class="card-title text-center">Card 2</h5>
             <p class="card-text">This is some sample text for Card 2.</p>
-            <Link to="/todonode" class="btn btn-primary">Go somewhere</Link>
+            <Link to="/todonode" class="btn btn-primary">To Do Node</Link>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@ import Sidebar from "./Sidebar.svelte";
           <div class="card-body text-center">
             <h5 class="card-title text-center">Card 3</h5>
             <p class="card-text">This is some sample text for Card 3.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <Link to="/Product" class="btn btn-primary">Product</Link>
           </div>
         </div>
       </div>

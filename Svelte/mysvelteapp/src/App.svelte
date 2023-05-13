@@ -10,6 +10,10 @@
     import Product from "./components/Product.svelte";
     import AddProduct from "./components/AddProduct.svelte";
     import ViewTransaction from "./components/ViewTransaction.svelte";
+    import CustomAlert from './components/CustomAlert.svelte';
+  
+
+    
 
 </script>
 
@@ -31,6 +35,49 @@
   <Route path='/Product'><Product /></Route>
   <Route path='/addProduct'><AddProduct /></Route>
   <Route path='/viewProduct'><ViewProduct /></Route>
-  <Route path='/viewTransaction'><ViewTransaction /></Route>
-  
+  <Route path='/viewTransaction'><ViewTransaction /></Route>  
 </Router>
+
+
+
+<!-- -- DROP TABLE IF EXISTS public.product;
+
+CREATE TABLE IF NOT EXISTS public.product
+(
+    id integer NOT NULL DEFAULT nextval('product_id_seq'::regclass),
+    product_name character varying(250) COLLATE pg_catalog."default",
+    product_category character varying(250) COLLATE pg_catalog."default",
+    brand_name character varying(250) COLLATE pg_catalog."default",
+    prize numeric(10,2),
+    image character varying(500) COLLATE pg_catalog."default",
+    specification character varying(500) COLLATE pg_catalog."default",
+    active boolean DEFAULT true,
+    CONSTRAINT product_pkey PRIMARY KEY (id)
+) -->
+
+<!-- git init
+git add .
+git commit -m "Initial commit
+git remote add origin https://github.com/ArunBabunmims/svelte-and-node.git
+git branch -M main
+git push -u origin main
+
+
+cd Node
+node -v
+npm init -y
+npm i express 
+npm i -D nodemon
+npm i pg
+
+npm create vite@latest mysvelteapp 
+cd mysvelteapp
+npm install
+npm run dev
+npm i svelte-routing
+npm run dev
+
+
+imagekit@786
+pswd:- Imagekit@786
+id :- b0bl46pbs -->

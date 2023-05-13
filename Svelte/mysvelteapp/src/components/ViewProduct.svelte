@@ -1,13 +1,13 @@
 <script>
+    import Modal from "./Modal.svelte";
     import Sidebar from "./Sidebar.svelte";
     import Header from "./Header.svelte";
-    import { onMount } from "svelte";
+    import CustomAlert from './CustomAlert.svelte';
 
     let search = "";
     let lists = [];
+    
 
-    let handleEdit;
-    let handleDelete;
     $: {
         (async () => {
             try {
@@ -34,9 +34,208 @@
             }
         })();
     }
+
+    function handleDelete(id) {
+        console.log("iddddddddd", id);
+        (async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:4000/deleteProduct?id=${id}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                console.log(response);
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log("jsonResponse", jsonResponse);
+                    // Update the lists array to reflect the deleted item
+                    lists = lists.filter((item) => item.id !== id);
+                    location.reload();
+                    alert('The Product has been Deleted.');
+                } else {
+                    console.log("ERROR:::::::::::");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }
+
+    let showModal = false;
+
+    let selectedList = null;
+    function handleEditClick(id) {
+        console.log("CLICKED::::::::", id);
+        selectedList = lists.filter((list) => list.id === id)[0];
+        showModal = true;
+    }
+
+    function handleEdit() {
+        // Get the updated values from the form
+
+        const productName = selectedList.product_name;
+        const brandName = selectedList.brand_name;
+
+        const productCategory = selectedList.product_category;
+        const prize = selectedList.prize;
+        const specification = selectedList.specification;
+        const id = selectedList.id;
+
+        // Create the updatedProduct object
+        const updatedProduct = {
+            id: id,
+            product_name: productName,
+            brand_name: brandName,
+            image: Image,
+            product_category: productCategory,
+            prize: prize,
+            specification: specification,
+        };
+
+        // Send the updatedProduct in a POST request to the server
+        (async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:4000/updateProduct`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(updatedProduct),
+                    }
+                );
+
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log("jsonResponse::::::::", jsonResponse);
+
+                    // Update the lists array with the updated product
+                    lists = lists.map((item) => {
+                        if (item.id === selectedList.id) {
+                            return { ...item, ...updatedProduct };
+                        }
+                        return item;
+                    });
+                    location.reload();
+                    alert('The lists have been updated.');
+                    
+                } else {
+                    console.log("ERROR:::::::::::");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }
 </script>
 
 <div class="main-container">
+    {#if showModal}
+        <Modal>
+            <h2 style="text-align: center;">Edit Modal Content</h2>
+            {#if selectedList !== null}
+                <div class="container row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">Product Name</label>
+                            <input
+                                type="text"
+                                bind:value={selectedList.product_name}
+                                required
+                                class="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name"> Brand Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="last-name"
+                                name="last-name"
+                                bind:value={selectedList.brand_name}
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Image">Image</label>
+                            <div class="product-image">
+                                <img src={selectedList.image} alt="" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="product-category"
+                                >Product Category</label
+                            >
+                            <select
+                                bind:value={selectedList.product_category}
+                                class="form-control"
+                                id="product-category"
+                                name="product-category"
+                            >
+                                <option value="Select" disabled selected
+                                    >---Select---</option
+                                >
+                                <option value="Mobiles">Mobiles</option>
+                                <option value="Electronics & Accessories"
+                                    >Electronics & Accessories</option
+                                >
+                                <option value="TVs & Appliances"
+                                    >TVs & Appliances</option
+                                >
+                                <option value="Clothing & Fashion"
+                                    >Clothing & Fashion</option
+                                >
+                                <option value="Grocery">Grocery</option>
+                                <option value="Books">Books</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Product Prize</label>
+                            <input
+                                bind:value={selectedList.prize}
+                                type="text"
+                                class="form-control"
+                                id="last-name"
+                                name="prize"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Product Specification</label>
+                            <textarea
+                                bind:value={selectedList.specification}
+                                class="form-control"
+                                id="last-name"
+                                name="last-name"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <button
+                            type="submit"
+                            id="sunmit"
+                            class="btn btn-success"
+                            on:click={handleEdit}>Save</button
+                        >
+                    </div>
+                </div>
+            {/if}
+        </Modal>
+    {/if}
+
     <div class="table-responsive mx-auto">
         <div class="search">
             <label for="">Search</label>
@@ -70,20 +269,23 @@
                         <td>{list.prize}</td>
                         <td>{list.specification}</td>
                         <td>
-                            
-                            <button type="button" class="icon-button" on:click={handleEdit}>
-                                <i class="fa fa-edit"></i>
+                            <button
+                                type="button"
+                                class="icon-button"
+                                on:click={() => handleEditClick(list.id)}
+                            >
+                                <i class="fa fa-edit" />
                                 <span class="sr-only">Edit</span>
-                              </button>
-                              <button type="button" class="icon-button" on:click={handleDelete}>
-                                <i class="fa fa-trash"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="icon-button"
+                                on:click={() => handleDelete(list.id)}
+                            >
+                                <i class="fa fa-trash" />
                                 <span class="sr-only">Delete</span>
-                              </button>
-                              
-                                  
-                           
-                          </td>
-                          
+                            </button>
+                        </td>
                     </tr>
                 {/each}
             </tbody>
@@ -95,18 +297,25 @@
 <Header />
 
 <style>
-    .icon-button i {
-  font-size: 1.5em;
-}
+    /* .modal-close{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      .icon-button {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    font-size: inherit;
-    padding: 2px;
-  }
+ } */
+
+    .icon-button i {
+        font-size: 1.5em;
+    }
+
+    .icon-button {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        font-size: inherit;
+        padding: 2px;
+    }
     .main-container {
         margin-top: 75px;
         margin-left: var(--sidebar-width);

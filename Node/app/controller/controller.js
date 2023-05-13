@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 module.exports = {
     insertTask: (req, res) => {
-        console.log("BODY::::::::::::::::", req.body);
+        console.log("Task::::::::::::::::", req.body);
         Promise.all([model.inserTask(req.body)]).then(result => {
 
         })
@@ -31,7 +31,6 @@ module.exports = {
     
 
     viewProduct: (req, res) => {
-        console.log("BODY::::::::::::::::", req);
         try{
             const search = req.query.search ?? '';
             Promise.all([model.viewProduct(search)]).then(result => {
@@ -42,5 +41,37 @@ module.exports = {
 
         }
 
-    }
+    },
+
+    deleteProduct: (req, res) => {
+        console.log("Delete::::::::::::::::", req.query.id);
+        try{
+            
+            Promise.all([model.deleteProduct(req.query.id)]).then(result => {
+                res.status(200).json(result[0].rows)
+            })
+          
+        } catch(err) {
+            res.status(500).json({message: "Internal Server Error"})
+
+        }
+
+    },
+      
+    updateProduct: (req, res) => {
+        console.log("Updateddddddd::::::::::::::::", req.body);
+        try{
+            
+            Promise.all([model.updateProduct(req.body)]).then(result => {
+        res.status(200).json({message: "Product Successfully Updated "});
+                
+            })
+          
+        } catch(err) {
+            res.status(500).json({message: "Internal Server Error"})
+
+        }
+
+    } 
 }
+

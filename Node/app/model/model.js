@@ -16,12 +16,28 @@ module.exports= class model{
         [product_name,product_category,brand_name,prize,url,specification])
     }
 
-    static viewProduct(search = '')
+    static viewProduct(search = '') {
+        const searchStr = `%${search}%`;
+        return client.query(
+          'SELECT * FROM product WHERE active = true AND (UPPER(CONCAT(product_name, brand_name, specification, product_category)) LIKE UPPER($1) OR LOWER(CONCAT(product_name, brand_name, specification, product_category)) LIKE LOWER($1))',
+          [searchStr]
+        );
+      }
+      
+
+    static deleteProduct(id)
     {
-        // return client.query('select * from product where active=true and UPPER(CONCAT(product_name,brand_name,specification,product_category)) like $1',['%' + search + '%'])
+        console.log("deleteidddddddddd::",id);
+        return client.query('DELETE FROM product WHERE id = $1', [id]);
+    }
 
-        return client.query('SELECT * FROM product WHERE active=true AND (UPPER(CONCAT(product_name,brand_name,specification,product_category)) LIKE $1 OR LOWER(CONCAT(product_name,brand_name,specification,product_category)) LIKE $2)', ['%' + search + '%', '%' + search + '%'])
+    static updateProduct({id,product_name,product_category,brand_name,prize,specification})
+    {
 
+        console.log("updateId:::::::::::",typeof id,id); 
+        console.log("updateproduct_name:::::::::::",typeof product_name,product_name); 
+        return client.query('UPDATE product SET product_name=$2, product_category=$3, brand_name=$4, prize=$5, specification=$6 WHERE id=$1', [id, product_name, product_category, brand_name, prize, specification]);
 
     }
+
 }

@@ -27,7 +27,16 @@
         },
         body: JSON.stringify({product_name,brand_name,base64String,prize,product_category,specification}),
       });
+      if (response.ok) {
+    // Reload the page to show the updated data
+    location.reload();
 
+    // Show an alert to inform the user that the product was successfully inserted
+    alert('The product has been inserted successfully.');
+
+    // Go back to the previous page
+    history.back();
+  }
       console.log(response);
     } catch (error) {
       console.log(error);

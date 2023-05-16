@@ -34,7 +34,7 @@ import Sidebar from "./Sidebar.svelte";
           <div class="card-body text-center">
             <h5 class="card-title text-center">Card 3</h5>
             <p class="card-text">This is some sample text for Card 3.</p>
-            <Link to="/Product" class="btn btn-primary">Product</Link>
+            <Link to="/service" class="btn btn-primary">Service</Link>
           </div>
         </div>
       </div>

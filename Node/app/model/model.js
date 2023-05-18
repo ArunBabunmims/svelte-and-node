@@ -40,4 +40,10 @@ module.exports= class model{
 
     }
 
+    static insertUser(json){
+        console.log("CLICK",json.user_name);
+        let a = [json.user_name,json.email,json.password]
+        console.log("CLICK",typeof json);
+        return client.query('insert into public.user(user_name,email,password) values ($1,$2,$3)',a);
+    }
 }

@@ -1,4 +1,6 @@
 <script>
+
+    let user_name,email,password;
     let showReg = true;
     let regText = false;
     let showLogin = false;
@@ -21,6 +23,26 @@
    
     }
 
+async function handleSubmit(){
+    console.log('user_name,email,password',user_name);
+    console.log('email,password::::::',email);
+    console.log('password:::::',password);
+
+    try{
+    const response = await fetch("http://localhost:4000/insertUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({user_name,email,password}),
+    });
+    if(response.ok){
+        console.log(response);
+    }
+}catch(error){
+    console.log(error);
+}
+}
 
 </script>
 
@@ -62,10 +84,10 @@
 
                 <div class="regForm" class:d-none={showReg}>
                     <h1>Create Account</h1>
-                    <input type="text" placeholder="Name" />
-                    <input type="text" placeholder="Email" />
-                    <input type="text" placeholder="Password" />
-                    <button >Register</button>
+                    <input type="text" bind:value={user_name} placeholder="Name" />
+                    <input type="text" bind:value={email}  placeholder="Email" />
+                    <input type="text" bind:value={password}  placeholder="Password" />
+                    <button on:click={handleSubmit}>Register</button>
                 </div>
             </div>
         </div>

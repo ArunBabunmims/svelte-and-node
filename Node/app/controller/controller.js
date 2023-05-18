@@ -87,6 +87,17 @@ module.exports = {
 
         }
 
+    },
+
+    insertUser:async (req,res)=>{
+        try{
+
+            let data = await model.insertUser(req.body);
+            console.log("Data : ",data);
+        }
+        catch(err){
+            res.status(500).json({ message: "Internal Server Error" })
+        }
     }
 }
 

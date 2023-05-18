@@ -7,6 +7,7 @@ router.get('/viewProduct',controller.viewProduct);
 router.post('/deleteProduct',controller.deleteProduct);
 router.post('/updateProduct',controller.updateProduct);
 router.get('/viewCart',controller.viewCart);
+router.post('/insertUser',controller.insertUser);
 
 
 

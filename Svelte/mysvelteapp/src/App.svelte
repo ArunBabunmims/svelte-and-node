@@ -19,6 +19,7 @@
     import Cart from './components/Cart.svelte';
     import LoginOld from './components/LoginOld.svelte';
     import Login from './components/Login.svelte';
+    import CartDetails from './components/cartDetails.svelte';
 
   
 
@@ -47,12 +48,13 @@
   <Route path='/viewProduct'><ViewProduct /></Route>
   <Route path='/viewTransaction'><ViewTransaction /></Route>  
   <Route path='/cutomerHeader'><CustomerHeader /></Route>
-  <Route path='home'><Home /></Route>
+  <Route path='/home'><Home /></Route>
   <Route path='/about'><About /></Route>
   <Route path='/product'><Product /></Route>
   <Route path='/contact'><Contact /></Route>
   <Route path='/footer'><Footer /></Route>
   <Route path='/cart'><Cart /></Route>
+  <Route path='/cartDetails'><CartDetails /></Route>
 </Router>
 
 
@@ -98,3 +100,24 @@ npm run dev
 imagekit@786
 pswd:- Imagekit@786
 id :- b0bl46pbs -->
+
+<!-- 
+CREATE TABLE IF NOT EXISTS public.user_cart
+(
+    id integer NOT NULL DEFAULT nextval('user_cart_id_seq'::regclass),
+    user_id integer,
+    product_id integer,
+    active boolean DEFAULT true,
+    quantity integer NOT NULL DEFAULT 1,
+    CONSTRAINT user_cart_pkey PRIMARY KEY (id)
+) -->
+
+
+<!-- CREATE TABLE IF NOT EXISTS public."user"
+(
+    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
+    user_name character varying(250) COLLATE pg_catalog."default",
+    email character varying(250) COLLATE pg_catalog."default",
+    password character varying(250) COLLATE pg_catalog."default",
+    CONSTRAINT user_pkey PRIMARY KEY (id)
+) -->

@@ -46,4 +46,41 @@ module.exports= class model{
         console.log("CLICK",typeof json);
         return client.query('insert into public.user(user_name,email,password) values ($1,$2,$3)',a);
     }
+
+    static addToCart(json){
+        console.log("jsonData:::",json);
+        let cart = [json.userId, json.id]
+        return client.query('insert into user_cart(user_id,product_id) values ($1,$2)',cart);
+    }
+
+    static getCartCount(userId){
+        console.log("jsonData:::",userId);
+        return client.query('SELECT COUNT(*) as count FROM user_cart WHERE user_id = $1',[userId]);
+    }
+
+    static checkLogin(json){
+        console.log("loginmodel:::::::",json);
+        let data = [json.uemail,json.upassword];
+        return client.query('select password from public.user where email=$1',[json.uemail])
+    }
+
+    static getCartData(userId){
+        return client.query(`SELECT uc.user_id, uc.quantity ,p.* FROM user_cart uc 
+        INNER JOIN product p 
+        ON p.id = uc.product_id 
+        WHERE user_id = $1 
+        AND p.active = true and uc.active = true;`,[userId])
+    }
+
+    static addQuantity(id)
+    {
+        console.log("addQuantity::",id);
+        return client.query('UPDATE user_cart SET quantity = quantity + 1  WHERE id = $1', [id]);
+    }
+
+    static removeQuantity(id)
+    {
+        console.log("removeQuantity::",id);
+        return client.query('UPDATE user_cart SET quantity = quantity - 1  WHERE id = $1', [id]);
+    }
 }

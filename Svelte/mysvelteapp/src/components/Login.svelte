@@ -1,6 +1,10 @@
 <script>
+    import { navigate } from "svelte-routing";
+
+
 
     let user_name,email,password;
+    let uemail,upassword;
     let showReg = true;
     let regText = false;
     let showLogin = false;
@@ -24,10 +28,6 @@
     }
 
 async function handleSubmit(){
-    console.log('user_name,email,password',user_name);
-    console.log('email,password::::::',email);
-    console.log('password:::::',password);
-
     try{
     const response = await fetch("http://localhost:4000/insertUser", {
         method: "POST",
@@ -37,11 +37,36 @@ async function handleSubmit(){
         body: JSON.stringify({user_name,email,password}),
     });
     if(response.ok){
-        console.log(response);
+        console.log('response::::::',response);
+        alert('Acount created successfully.');
+        location.reload();
     }
 }catch(error){
     console.log(error);
 }
+}
+
+async function verifyLogin(){
+    console.log('uemail:::::',uemail,'upassword........',upassword);
+    try{
+const response = await fetch("http://localhost:4000/verifyLogin",{
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({uemail,upassword}),
+    });
+    if (response.ok){
+        navigate('/home');
+    }
+
+    else {
+        alert('bhai password wrong he tera')
+    }
+    }
+    catch(error){
+
+    }
 }
 
 </script>
@@ -62,9 +87,9 @@ async function handleSubmit(){
                 </div>
                 <div class="logForm" class:d-none={showLogin}>
                     <h1>Log In</h1>
-                    <input type="text" placeholder="Email" />
-                    <input type="text" placeholder="Password" />
-                    <button class="logIn" >Log In</button>
+                    <input type="text" bind:value={uemail} placeholder="Email" />
+                    <input type="text" bind:value={upassword} placeholder="Password" />
+                    <button class="logIn" on:click={verifyLogin}>Log In</button>
                 </div>
             </div>
 

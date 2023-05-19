@@ -1,3 +1,10 @@
+<script>
+    import { Link } from "svelte-routing";
+
+
+    import { cart } from "../stores/cart-store";
+
+</script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -64,6 +71,9 @@
           </li>
         </ul>
      <button class="btn p-2 my-lg-0 my-2">Sign In</button>
+     <Link to="/cartDetails"> <button class="btn p-2 my-lg-0 my-2 mx-4">Cart
+      <span class="badge badge-danger p-1"  >{$cart.count}</span>
+     </button></Link>
 
       </div>
        

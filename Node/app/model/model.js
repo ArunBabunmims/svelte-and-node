@@ -75,12 +75,18 @@ module.exports= class model{
     static addQuantity(id)
     {
         console.log("addQuantity::",id);
-        return client.query('UPDATE user_cart SET quantity = quantity + 1  WHERE id = $1', [id]);
+        return client.query('UPDATE user_cart SET quantity = quantity + 1  WHERE product_id = $1', [id]);
     }
 
     static removeQuantity(id)
     {
         console.log("removeQuantity::",id);
-        return client.query('UPDATE user_cart SET quantity = quantity - 1  WHERE id = $1', [id]);
+        return client.query('UPDATE user_cart SET quantity = quantity - 1  WHERE product_id = $1', [id]);
+    }
+
+    static deleteCartProduct(id)
+    {
+        console.log("deleteCart::",id);
+        return client.query('UPDATE user_cart set active= false where product_id =$1',[id]);
     }
 }

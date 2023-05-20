@@ -42,7 +42,7 @@
         (async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:4000/deleteProduct?id=${id}`,
+                    `http://localhost:4000/deleteCartProduct?id=${id}`,
                     {
                         method: "POST",
                         headers: {
@@ -140,6 +140,10 @@
                         },
                     }
                 );
+                if(response.ok){
+                    alert('Added Succesfully!!!!!');
+                    location.reload();
+                }
               
             }
             catch(error){
@@ -160,7 +164,8 @@
                 }
                 )
                 if(response.ok){
-                    alert('Removed Succesfully!!!!!')
+                    alert('Removed Succesfully!!!!!');
+                    location.reload();
                 }
             }
             catch(error){
@@ -313,14 +318,14 @@
                             <button><i class="fa fa-solid fa-plus" on:click={() => addQuantity(list.id)}></i></button>
                         </td>
                         <td>
-                            <button
+                            <!-- <button
                                 type="button"
                                 class="icon-button"
                                 on:click={() => handleEditClick(list.id)}
                             >
                                 <i class="fa fa-edit" />
                                 <span class="sr-only">Edit</span>
-                            </button>
+                            </button> -->
                             <button
                                 type="button"
                                 class="icon-button"

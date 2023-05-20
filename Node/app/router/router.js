@@ -13,6 +13,7 @@ router.post('/verifyLogin',controller.verifyLogin);
 router.get('/get-cart',controller.getCart);
 router.post('/addQuantity',controller.addQuantity);
 router.post('/removeQuantity',controller.removeQuantity);
+router.post('/deleteCartProduct',controller.deleteCartProduct);
 
 
 module.exports = router;

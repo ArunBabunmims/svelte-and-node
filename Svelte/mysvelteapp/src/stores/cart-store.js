@@ -11,7 +11,7 @@ export const cart = writable({
     const response = await fetch(`http://localhost:4000/get-cart?userId=${userId}`)
     if (response.ok) {
         const json = await response.json();
-        console.log('json::::::::',json);
+        console.log('jsonStore::::::::',json);
         cart.set({
             count: json.count?.count ?? 0,
             json: json.json

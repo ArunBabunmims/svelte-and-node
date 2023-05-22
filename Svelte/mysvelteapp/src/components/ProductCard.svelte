@@ -47,7 +47,7 @@
           {#if $cart.json?.filter(val => val.id == list.id).length === 0}
              <button on:click={() => handleSubmit(list.id)} class="btn signin" style="background: green; color: white; box-shadow: 2px 4px 5px rgba(0,0,0,.3);">Add To Cart</button>
           {:else}
-          <button  class="btn signin" style="background: blue; color: white; box-shadow: 2px 4px 5px rgba(0,0,0,.3);">View Cart</button>
+          <button  class="btn signin" style="background: blue; color: white; box-shadow: 2px 4px 5px rgba(0,0,0,.3);">Go To Cart</button>
           {/if}
         </div>
       </div>

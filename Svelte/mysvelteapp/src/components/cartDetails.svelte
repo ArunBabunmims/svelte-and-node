@@ -142,7 +142,18 @@
                 );
                 if(response.ok){
                     alert('Added Succesfully!!!!!');
-                    location.reload();
+                    cart.update((prev) => {
+                        return {
+                            count: prev.count,
+                            json: 
+                            prev.json.map(val => {
+                                if(val.id == id) {
+                                    val.quantity += 1;
+                                }
+                                return val;
+                            })
+                     }
+                    })
                 }
               
             }
@@ -165,7 +176,18 @@
                 )
                 if(response.ok){
                     alert('Removed Succesfully!!!!!');
-                    location.reload();
+                    cart.update((prev) => {
+                        return {
+                            count: prev.count,
+                            json: 
+                            prev.json.map(val => {
+                                if(val.id == id) {
+                                    val.quantity -= 1;
+                                }
+                                return val;
+                            })
+                     }
+                    })
                 }
             }
             catch(error){
@@ -173,111 +195,16 @@
             }
       
     }
+
+    $: totalAmount = $cart.json.reduce((accumulator, currentValue) => {
+                          return accumulator + Number(currentValue.prize * currentValue.quantity);
+                     }, 0).toFixed(2);
 </script>
 
 <CustomerHeader />
 
 <div class="main-container">
-    {#if showModal}
-        <Modal>
-            <h2 style="text-align: center;">Edit Modal Content</h2>
-            {#if selectedList !== null}
-                <div class="container row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="name">Product Name</label>
-                            <input
-                                type="text"
-                                bind:value={selectedList.product_name}
-                                required
-                                class="form-control"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="last-name"> Brand Name</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="last-name"
-                                name="last-name"
-                                bind:value={selectedList.brand_name}
-                                required
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Image">Image</label>
-                            <div class="product-image">
-                                <img src={selectedList.image} alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="product-category"
-                                >Product Category</label
-                            >
-                            <select
-                                bind:value={selectedList.product_category}
-                                class="form-control"
-                                id="product-category"
-                                name="product-category"
-                            >
-                                <option value="Select" disabled selected
-                                    >---Select---</option
-                                >
-                                <option value="Mobiles">Mobiles</option>
-                                <option value="Electronics & Accessories"
-                                    >Electronics & Accessories</option
-                                >
-                                <option value="TVs & Appliances"
-                                    >TVs & Appliances</option
-                                >
-                                <option value="Clothing & Fashion"
-                                    >Clothing & Fashion</option
-                                >
-                                <option value="Grocery">Grocery</option>
-                                <option value="Books">Books</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="last-name">Product Prize</label>
-                            <input
-                                bind:value={selectedList.prize}
-                                type="text"
-                                class="form-control"
-                                id="last-name"
-                                name="prize"
-                                required
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="last-name">Product Specification</label>
-                            <textarea
-                                bind:value={selectedList.specification}
-                                class="form-control"
-                                id="last-name"
-                                name="last-name"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <button
-                            type="submit"
-                            id="sunmit"
-                            class="btn btn-success"
-                            on:click={handleEdit}>Save</button
-                        >
-                    </div>
-                </div>
-            {/if}
-        </Modal>
-    {/if}
+  
 
     <div class="table-responsive mx-auto">
         <div class="search">
@@ -339,6 +266,15 @@
                 {/each}
             </tbody>
         </table>
+    </div>
+
+    <div class="place-order d-flex ml-auto py-2">
+        <div class="amount mx-3 p-2 bg-secondary text-white"> 
+            <p class="m-0 p-0">Total Amount : {totalAmount} $</p>
+        </div>
+        <div class="place ms-2">
+            <button class="btn-success p-2">Place Order</button>
+        </div>
     </div>
 </div>
 

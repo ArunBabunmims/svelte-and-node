@@ -163,6 +163,9 @@
     }
 
     async function removeQuantity(id){
+        if($cart.json.filter(val => val.id == id && val.quantity <= 0).length > 0) {
+            return;
+        }
         console.log('MinusID',id);
        
             try{
@@ -199,6 +202,31 @@
     $: totalAmount = $cart.json.reduce((accumulator, currentValue) => {
                           return accumulator + Number(currentValue.prize * currentValue.quantity);
                      }, 0).toFixed(2);
+
+
+        function placeOrder(){
+            console.log('$cart.json:',$cart.json); 
+
+            let order = $cart.json;
+
+        //     try{
+        //     const response = await fetch("http://localhost:4000/place-order" ,{
+        //         method:"POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({})
+        //     })
+
+        //     if(response.ok) {
+        //         console.log("SUCCESS::::::::::::::::", response);
+               
+        //     }
+        // }
+        // catch(error){
+        //         console.log(error);
+        //     }
+        }
 </script>
 
 <CustomerHeader />
@@ -240,9 +268,13 @@
                         <td>{list.prize}</td>
                         <td>{list.specification}</td>
                         <td>
-                            <button><i class="fa fa-solid fa-minus"  on:click={() => removeQuantity(list.id)}></i></button>
+                            <button
+                                disabled={$cart.json.filter(val => val.id == list.id && val.quantity <= 0).length > 0}
+                                on:click={() => removeQuantity(list.id)}
+                                class="btn btn-circle btn-danger" style="border-radius: 99999px;"><i class="fa fa-solid fa-minus"></i>
+                            </button>
                             <span class="px-2">{list.quantity}</span>
-                            <button><i class="fa fa-solid fa-plus" on:click={() => addQuantity(list.id)}></i></button>
+                            <button class="btn btn-success" style="border-radius: 999999px;"><i class="fa fa-solid fa-plus" on:click={() => addQuantity(list.id)}></i></button>
                         </td>
                         <td>
                             <!-- <button
@@ -273,7 +305,7 @@
             <p class="m-0 p-0">Total Amount : {totalAmount} $</p>
         </div>
         <div class="place ms-2">
-            <button class="btn-success p-2">Place Order</button>
+            <button class="btn-success p-2" on:click={placeOrder}>Place Order</button>
         </div>
     </div>
 </div>

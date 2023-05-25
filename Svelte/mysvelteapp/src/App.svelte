@@ -1,4 +1,5 @@
 <script>
+	import UserDetails from './components/UserDetails.svelte';
 	  import ViewProduct from './components/ViewProduct.svelte';
     import {Router,Route,navigate} from 'svelte-routing';
     import Sidebar from "./components/Sidebar.svelte";
@@ -20,10 +21,8 @@
     import LoginOld from './components/LoginOld.svelte';
     import Login from './components/Login.svelte';
     import CartDetails from './components/cartDetails.svelte';
-
-  
-
-    
+    import Payment from './components/Payment.svelte';
+ 
 
 </script>
 
@@ -55,24 +54,13 @@
   <Route path='/footer'><Footer /></Route>
   <Route path='/cart'><Cart /></Route>
   <Route path='/cartDetails'><CartDetails /></Route>
+  <Route path='/userDetails'><UserDetails /></Route>
+  <Route path='/payment'><Payment /></Route>
 </Router>
 
 
 
-<!-- -- DROP TABLE IF EXISTS public.product;
 
-CREATE TABLE IF NOT EXISTS public.product
-(
-    id integer NOT NULL DEFAULT nextval('product_id_seq'::regclass),
-    product_name character varying(250) COLLATE pg_catalog."default",
-    product_category character varying(250) COLLATE pg_catalog."default",
-    brand_name character varying(250) COLLATE pg_catalog."default",
-    prize numeric(10,2),
-    image character varying(500) COLLATE pg_catalog."default",
-    specification character varying(500) COLLATE pg_catalog."default",
-    active boolean DEFAULT true,
-    CONSTRAINT product_pkey PRIMARY KEY (id)
-) -->
 
 <!-- git init
 git add .
@@ -101,45 +89,6 @@ imagekit@786
 pswd:- Imagekit@786
 id :- b0bl46pbs -->
 
-<!-- 
-CREATE TABLE IF NOT EXISTS public.user_cart
-(
-    id integer NOT NULL DEFAULT nextval('user_cart_id_seq'::regclass),
-    user_id integer,
-    product_id integer,
-    active boolean DEFAULT true,
-    quantity integer NOT NULL DEFAULT 1,
-    CONSTRAINT user_cart_pkey PRIMARY KEY (id)
-) -->
 
 
-<!-- CREATE TABLE IF NOT EXISTS public."user"
-(
-    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-    user_name character varying(250) COLLATE pg_catalog."default",
-    email character varying(250) COLLATE pg_catalog."default",
-    password character varying(250) COLLATE pg_catalog."default",
-    CONSTRAINT user_pkey PRIMARY KEY (id)
-) -->
 
-
-<!-- 
-CREATE TABLE IF NOT EXISTS public."user"
-(
-    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-    user_name character varying(250) COLLATE pg_catalog."default",
-    email character varying(250) COLLATE pg_catalog."default",
-    password character varying(250) COLLATE pg_catalog."default",
-    CONSTRAINT user_pkey PRIMARY KEY (id)
-) -->
-
-
-<!-- CREATE TABLE IF NOT EXISTS public.user_cart
-(
-    id integer NOT NULL DEFAULT nextval('user_cart_id_seq'::regclass),
-    user_id integer,
-    product_id integer,
-    active boolean DEFAULT true,
-    quantity integer NOT NULL DEFAULT 1,
-    CONSTRAINT user_cart_pkey PRIMARY KEY (id)
-) -->

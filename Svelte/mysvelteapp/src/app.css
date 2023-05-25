@@ -13,3 +13,7 @@
   --color-light:#e0e0e0;
   --sidebar-width: 250px;
 }
+
+body {
+  scroll-behavior: smooth;
+}

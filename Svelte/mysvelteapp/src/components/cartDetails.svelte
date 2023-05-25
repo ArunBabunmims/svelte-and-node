@@ -1,14 +1,17 @@
 <script>
+	import Payment from './Payment.svelte';
+	import Footer from './Footer.svelte';
     import Modal from "./Modal.svelte";
     import Sidebar from "./Sidebar.svelte";
     import Header from "./Header.svelte";
-    import CustomAlert from './CustomAlert.svelte';
+    import CustomAlert from "./CustomAlert.svelte";
     import CustomerHeader from "./CustomerHeader.svelte";
     import { cart } from "../stores/cart-store";
+    import UserDetails from "./UserDetails.svelte";
+    import { slide } from "svelte/transition";
 
     let search = "";
     let lists = [];
-    
 
     $: {
         (async () => {
@@ -57,7 +60,7 @@
                     // Update the lists array to reflect the deleted item
                     lists = lists.filter((item) => item.id !== id);
                     location.reload();
-                    alert('The Product has been Deleted.');
+                    alert("The Product has been Deleted.");
                 } else {
                     console.log("ERROR:::::::::::");
                 }
@@ -102,7 +105,9 @@
         const userId = 7;
         (async () => {
             try {
-                const response = await fetch(`http://localhost:4000/get-cart?userId=${userId}`);
+                const response = await fetch(
+                    `http://localhost:4000/get-cart?userId=${userId}`
+                );
 
                 if (response.ok) {
                     const jsonResponse = await response.json();
@@ -117,7 +122,6 @@
                     // });
                     // location.reload();
                     // alert('The lists have been updated.');
-                    
                 } else {
                     console.log("ERROR:::::::::::");
                 }
@@ -127,118 +131,106 @@
         })();
     }
 
-
-
-    async function addQuantity(id){
-        console.log('plusID:::::::',id);
-            try{
-                const response = await fetch(`http://localhost:4000/addQuantity?id=${id}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                if(response.ok){
-                    alert('Added Succesfully!!!!!');
-                    cart.update((prev) => {
-                        return {
-                            count: prev.count,
-                            json: 
-                            prev.json.map(val => {
-                                if(val.id == id) {
-                                    val.quantity += 1;
-                                }
-                                return val;
-                            })
-                     }
-                    })
-                }
-              
-            }
-            catch(error){
-                console.log(error);
-            }
-    }
-
-    async function removeQuantity(id){
-        if($cart.json.filter(val => val.id == id && val.quantity <= 0).length > 0) {
-            return;
-        }
-        console.log('MinusID',id);
-       
-            try{
-                const response = await fetch(`http://localhost:4000/removeQuantity?id=${id}`,
+    async function addQuantity(id) {
+        console.log("plusID:::::::", id);
+        try {
+            const response = await fetch(
+                `http://localhost:4000/addQuantity?id=${id}`,
                 {
-                    method : "POST",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                 }
-                )
-                if(response.ok){
-                    alert('Removed Succesfully!!!!!');
-                    cart.update((prev) => {
-                        return {
-                            count: prev.count,
-                            json: 
-                            prev.json.map(val => {
-                                if(val.id == id) {
-                                    val.quantity -= 1;
-                                }
-                                return val;
-                            })
-                     }
-                    })
-                }
+            );
+            if (response.ok) {
+                alert("Added Succesfully!!!!!");
+                cart.update((prev) => {
+                    return {
+                        count: prev.count,
+                        json: prev.json.map((val) => {
+                            if (val.id == id) {
+                                val.quantity += 1;
+                            }
+                            return val;
+                        }),
+                    };
+                });
             }
-            catch(error){
-                console.log(error);
-            }
-      
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    $: totalAmount = $cart.json.reduce((accumulator, currentValue) => {
-                          return accumulator + Number(currentValue.prize * currentValue.quantity);
-                     }, 0).toFixed(2);
-
-
-        function placeOrder(){
-            console.log('$cart.json:',$cart.json); 
-
-            let order = $cart.json;
-
-        //     try{
-        //     const response = await fetch("http://localhost:4000/place-order" ,{
-        //         method:"POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({})
-        //     })
-
-        //     if(response.ok) {
-        //         console.log("SUCCESS::::::::::::::::", response);
-               
-        //     }
-        // }
-        // catch(error){
-        //         console.log(error);
-        //     }
+    async function removeQuantity(id) {
+        if (
+            $cart.json.filter((val) => val.id == id && val.quantity <= 0)
+                .length > 0
+        ) {
+            return;
         }
+        console.log("MinusID", id);
+
+        try {
+            const response = await fetch(
+                `http://localhost:4000/removeQuantity?id=${id}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            if (response.ok) {
+                alert("Removed Succesfully!!!!!");
+                cart.update((prev) => {
+                    return {
+                        count: prev.count,
+                        json: prev.json.map((val) => {
+                            if (val.id == id) {
+                                val.quantity -= 1;
+                            }
+                            return val;
+                        }),
+                    };
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    $: totalAmount = $cart.json
+        .reduce((accumulator, currentValue) => {
+            return (
+                accumulator + Number(currentValue.prize * currentValue.quantity)
+            );
+        }, 0)
+        .toFixed(2);
+
+    let userInfo = false;
+    function placeOrder() {
+        console.log("$cart.json:", $cart.json);
+
+        let order = $cart.json;
+        userInfo = !userInfo;
+        paymentOption = false;
+    }
+
+    let paymentOption = false;
+    function openPayment(){
+        paymentOption = true;
+        userInfo = false;
+    }
+    
+
 </script>
 
 <CustomerHeader />
 
 <div class="main-container">
-  
-
     <div class="table-responsive mx-auto">
-        <div class="search">
-            <label for="">Search</label>
-            <input bind:value={search} type="search" class="form-control" />
-        </div>
+      
         <table>
             <thead>
                 <tr>
@@ -269,22 +261,26 @@
                         <td>{list.specification}</td>
                         <td>
                             <button
-                                disabled={$cart.json.filter(val => val.id == list.id && val.quantity <= 0).length > 0}
+                                disabled={$cart.json.filter(
+                                    (val) =>
+                                        val.id == list.id && val.quantity <= 0
+                                ).length > 0}
                                 on:click={() => removeQuantity(list.id)}
-                                class="btn btn-circle btn-danger" style="border-radius: 99999px;"><i class="fa fa-solid fa-minus"></i>
+                                class="btn btn-circle btn-danger"
+                                style="border-radius: 99999px;"
+                                ><i class="fa fa-solid fa-minus" />
                             </button>
                             <span class="px-2">{list.quantity}</span>
-                            <button class="btn btn-success" style="border-radius: 999999px;"><i class="fa fa-solid fa-plus" on:click={() => addQuantity(list.id)}></i></button>
+                            <button
+                                class="btn btn-success"
+                                style="border-radius: 999999px;"
+                                ><i
+                                    class="fa fa-solid fa-plus"
+                                    on:click={() => addQuantity(list.id)}
+                                /></button
+                            >
                         </td>
                         <td>
-                            <!-- <button
-                                type="button"
-                                class="icon-button"
-                                on:click={() => handleEditClick(list.id)}
-                            >
-                                <i class="fa fa-edit" />
-                                <span class="sr-only">Edit</span>
-                            </button> -->
                             <button
                                 type="button"
                                 class="icon-button"
@@ -301,24 +297,44 @@
     </div>
 
     <div class="place-order d-flex ml-auto py-2">
-        <div class="amount mx-3 p-2 bg-secondary text-white"> 
+        <div class="amount mx-3 p-2 bg-secondary text-white">
             <p class="m-0 p-0">Total Amount : {totalAmount} $</p>
         </div>
         <div class="place ms-2">
-            <button class="btn-success p-2" on:click={placeOrder}>Place Order</button>
+            <button class="btn-success p-2" on:click={placeOrder}
+            >{userInfo ? 'Cancel Order' : 'Place Order'}</button
+            >
         </div>
     </div>
+
+    {#if userInfo}
+  <div transition:slide>
+   
+    <UserDetails />
+    <div class="text-center" style="padding: 15px;">
+        <button class="btn btn-success" on:click={openPayment}>
+            Place Your Order
+        </button>
+    </div>
+  </div>
+{/if}
+
+{#if paymentOption}
+<div transition:slide>
+ 
+  <Payment />
+  <div class="text-center" style="padding: 15px;">
+    <button class="btn btn-success">
+        Confirm Your Payment
+    </button>
 </div>
-
-
+</div>
+{/if}
+</div>
+<Footer />
 
 <style>
-    /* .modal-close{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
- } */
+ 
 
     .icon-button i {
         font-size: 1.5em;
@@ -333,9 +349,11 @@
         padding: 2px;
     }
     .main-container {
+        padding-bottom: 50px;
         transition: 300ms ease-in-out;
         display: grid;
         place-content: center;
+        min-height: calc(100vh - 105px);
     }
 
     .table-responsive {
@@ -379,9 +397,4 @@
         height: 100px !important;
     }
 
-    .search {
-        position: absolute;
-        right: 10px;
-        top: 0;
-    }
 </style>

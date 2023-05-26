@@ -89,6 +89,25 @@ imagekit@786
 pswd:- Imagekit@786
 id :- b0bl46pbs -->
 
+<!-- CREATE TABLE IF NOT EXISTS public.user_cart
+(
+    id integer NOT NULL DEFAULT nextval('user_cart_id_seq'::regclass),
+    user_id integer,
+    product_id integer,
+    active boolean DEFAULT true,
+    quantity integer NOT NULL DEFAULT 1,
+    CONSTRAINT user_cart_pkey PRIMARY KEY (id)
+) -->
+
+<!-- CREATE TABLE IF NOT EXISTS public."user"
+(
+    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
+    user_name character varying(250) COLLATE pg_catalog."default",
+    email character varying(250) COLLATE pg_catalog."default",
+    password character varying(250) COLLATE pg_catalog."default",
+    CONSTRAINT user_pkey PRIMARY KEY (id)
+) -->
+
 
 
 

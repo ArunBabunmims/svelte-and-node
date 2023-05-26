@@ -1,3 +1,6 @@
+<script>
+    export let name,address,mobile,city,pincode;
+</script>
 <div class="main-container">
     <div class="details">
         <h3 style="text-align: center;">Place Order</h3>
@@ -5,12 +8,12 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="name">Full Name :</label>
-                    <input type="text" required class="form-control" />
+                    <input type="text" bind:value={name} required class="form-control" />
                 </div>
 
                 <div class="form-group">
                     <label for="last-name"> House No:,colony,Area :</label>
-                    <textarea
+                    <textarea bind:value={address}
                         rows="2"
                         class="form-control"
                         id="last-name"
@@ -25,7 +28,7 @@
 
                 <div class="form-group">
                     <label for="name"> Phone Number :</label>
-                    <input type="text" required class="form-control" />
+                    <input type="text" bind:value={mobile} required class="form-control" />
                 </div>
 
                 <div class="form-group">
@@ -46,13 +49,13 @@
                
                 <div class="form-group">
                     <label for="name">City :</label>
-                    <input type="text" required class="form-control" />
+                    <input type="text" bind:value={city} required class="form-control" />
                 </div>
 
 
                 <div class="form-group pincode">
                     <label for="name">Pincode :</label>
-                    <input type="text" required class="form-control" />
+                    <input type="text" bind:value={pincode} required class="form-control" />
                 </div>
             </div>
         </div>

@@ -217,13 +217,20 @@
         paymentOption = false;
     }
 
+
+    let name,address,mobile,city,pincode='';
+
     let paymentOption = false;
     function openPayment(){
         paymentOption = true;
         userInfo = false;
+    console.log('nammmmm',name);
     }
     
+    // let name = '';
+    // $: console.log(name);
 
+    
 </script>
 
 <CustomerHeader />
@@ -310,7 +317,7 @@
     {#if userInfo}
   <div transition:slide>
    
-    <UserDetails />
+    <UserDetails bind:name={name} bind:address={address} bind:mobile={mobile} bind:city={city} bind:pincode={pincode}/>
     <div class="text-center" style="padding: 15px;">
         <button class="btn btn-success" on:click={openPayment}>
             Place Your Order

@@ -46,15 +46,15 @@
         width: 5rem;
         border-radius: 15px;
     }
+
+   
 </style>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
     <div class="container-fluid">
-      <a class="navbar-brand" href="abc">Mumbai Shopers</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <a class="navbar-brand" href="/about">Mumbai Shopers</a>
+   
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto ">
           <li class="nav-item">

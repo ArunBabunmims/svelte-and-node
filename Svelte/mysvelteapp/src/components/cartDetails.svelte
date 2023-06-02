@@ -224,9 +224,12 @@
     function openPayment(){
         paymentOption = true;
         userInfo = false;
-    console.log('nammmmm',name);
+    console.log('nammmmm',name,mobile,address);
     }
+
+    let UPI;
     
+    $: console.log('UPI::::::',UPI);
     // let name = '';
     // $: console.log(name);
 
@@ -329,7 +332,7 @@
 {#if paymentOption}
 <div transition:slide>
  
-  <Payment />
+  <Payment bind:UPI={UPI}/>
   <div class="text-center" style="padding: 15px;">
     <button class="btn btn-success">
         Confirm Your Payment

@@ -54,8 +54,8 @@
   <Route path='/footer'><Footer /></Route>
   <Route path='/cart'><Cart /></Route>
   <Route path='/cartDetails'><CartDetails /></Route>
-  <Route path='/userDetails'><UserDetails /></Route>
-  <Route path='/payment'><Payment /></Route>
+  <!-- <Route path='/userDetails'><UserDetails /></Route> -->
+  
 </Router>
 
 
